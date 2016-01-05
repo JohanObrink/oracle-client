@@ -7,7 +7,7 @@ chai.use(require('sinon-chai'));
 require('sinon-as-promised');
 
 describe('oracleClient.connect()', () => {
-  var oracleClientConnect, client, io, socket;
+  var oracleClientConnect, io, socket;
   beforeEach(() => {
     socket = {
       emit: sinon.stub()
@@ -18,7 +18,7 @@ describe('oracleClient.connect()', () => {
     });
   });
   it('passes in the correct address and options', () => {
-    var client = oracleClientConnect('http://localhost:3000', {foo: 'bar'});
+    oracleClientConnect('http://localhost:3000', {foo: 'bar'});
     expect(io).calledOnce.calledWith('http://localhost:3000', {foo: 'bar'});
   });
   it('reuses clients when settings match', () => {

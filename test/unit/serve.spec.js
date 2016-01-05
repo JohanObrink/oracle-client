@@ -7,7 +7,7 @@ chai.use(require('sinon-chai'));
 require('sinon-as-promised');
 
 describe('oracleClient.serve()', () => {
-  var oracleClientServe, client, http, https, app, fs, uuid, socketIo, io, direct, directClient, directConn, connectionId;
+  var oracleClientServe,  http, https, app, fs, uuid, socketIo, io, direct, directClient, directConn, connectionId;
   beforeEach(() => {
     directConn = {
       execute: sinon.stub(),
@@ -54,7 +54,7 @@ describe('oracleClient.serve()', () => {
   });
   it('calls http.createServer and app.listen with the correct port', () => {
     var client = oracleClientServe(3000);
-    expect(http.createServer).calledOnce.calledWith(client.handleRequest);;
+    expect(http.createServer).calledOnce.calledWith(client.handleRequest);
     expect(app.listen).calledOnce.calledWith(3000);
   });
   it('calls https.createServer and app.listen with the correct port and options', () => {

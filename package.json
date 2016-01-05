@@ -1,0 +1,25 @@
+{
+  "name": "oracle-client",
+  "version": "0.1.0",
+  "description": "An oracledb client for connecting to oracledb directly, serving the connection through a web socket or consuming said web socket.",
+  "main": "lib/oracle-client",
+  "scripts": {
+    "test": "gulp test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/JohanObrink/oracle-client.git"
+  },
+  "keywords": [
+    "node",
+    "oracledb",
+    "socket.io",
+    "client"
+  ],
+  "author": "Johan Öbrink <johan.obrink@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/JohanObrink/oracle-client/issues"
+  },
+  "homepage": "https://github.com/JohanObrink/oracle-client#readme"
+}

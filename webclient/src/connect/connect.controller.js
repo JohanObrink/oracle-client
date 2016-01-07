@@ -3,9 +3,9 @@
     .module('oracle-client')
     .controller('ConnectController', ConnectController);
 
-  ConnectController.$inject = ['oracleClient'];
+  ConnectController.$inject = ['$log', 'oracleClient'];
 
-  function ConnectController(oracleClient) {
+  function ConnectController($log, oracleClient) {
     var vm = this;
 
     vm.config = JSON.stringify({user: '', password: '', host: '', database: ''}, null, '\t');
@@ -17,12 +17,12 @@
         .then(connectionId => {
           vm.connected = true;
           vm.sending = false;
-          //logInfo(`Connected to ${connectionId}`);
+          $log.info(`Connected to ${connectionId}`);
         })
         .catch(err => {
           vm.connected = false;
           vm.sending = false;
-          //logError(err);
+          $log.error(err);
         });
     }
   }

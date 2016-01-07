@@ -3,15 +3,14 @@
     .module('oracle-client')
     .controller('DashboardController', DashboardController);
 
-  DashboardController.$inject = ['$scope', 'oracleClient'];
+  DashboardController.$inject = ['$log', '$scope', 'oracleClient'];
 
-  function DashboardController($scope, oracleClient) {
+  function DashboardController($log, $scope, oracleClient) {
     var vm = this;
 
     vm.sending = false;
     vm.results = [];
     vm.log = '';
-
 
     vm.disconnect = () => disconnect();
     vm.execute = () => execute(vm.sql);
@@ -19,40 +18,7 @@
     vm.clearResults = () => vm.results = [];
     vm.removeResult = (result) => vm.results = vm.results.filter(res => res !== result);
 
-    function activate() {
-      apply();
-    }
-
-    function apply(fn) {
-      var phase = $scope.$root.$$phase;
-      if(phase == '$apply' || phase == '$digest') {
-        if(fn && ('function' === typeof fn)) {
-          fn();
-        }
-      } else {
-        $scope.$apply(fn);
-      }
-    }
-
-    function log(msg) {
-      var now = new Date();
-      var pad = num => (num < 10) ? '0' + num : '' + num;
-      var hours = pad(now.getHours()),
-        minutes = pad(now.getMinutes()),
-        seconds = pad(now.getSeconds());
-      var ts = `${hours}:${minutes}:${seconds}`;
-      vm.log = `[${ts}] ${msg}\n` + vm.log;
-
-      apply();
-    }
-
-    function logInfo(msg) {
-      log(`Info: ${msg}`);
-    }
-
-    function logError(err) {
-      log(`Error: ${err}`);
-    }
+    function activate() {}
 
     function disconnect() {
       vm.sending = true;
@@ -60,11 +26,11 @@
         .then(connectionId => {
           vm.connected = false;
           vm.sending = false;
-          logInfo(`Disconnected from ${connectionId}`);
+          $log.info(`Disconnected from ${connectionId}`);
         })
         .catch(err => {
           vm.sending = false;
-          logError(err);
+          $log.error(err);
         });
     }
 
@@ -74,11 +40,12 @@
         .then(rows => {
           vm.results.unshift({sql, rows});
           vm.sending = false;
-          logInfo(`Execution successful. Result ${rows.length} rows.`);
+          $log.info(`Execution successful. Result ${rows.length} rows.`);
+          $scope.$safeApply();
         })
         .catch(err => {
           vm.sending = false;
-          logError(err);
+          $log.error(err);
         });
     }
 

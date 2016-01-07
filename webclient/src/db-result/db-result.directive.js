@@ -11,7 +11,7 @@
         sql: '=',
         rows: '='
       },
-      templateUrl: 'db-result.directive.html',
+      templateUrl: 'db-result/db-result.directive.html',
       link: linkFunction
     };
   }

@@ -10,15 +10,15 @@
     $locationProvider.html5Mode(true);
     $urlRouterProvider.otherwise('/');
     $stateProvider
-      .state('main', {
+      .state('dashboard', {
         url: '/',
-        templateUrl: 'main.html',
-        controller: 'MainController',
+        templateUrl: 'dashboard/index.html',
+        controller: 'DashboardController',
         controllerAs: 'vm'
       })
       .state('connect', {
         url: '/connect',
-        templateUrl: 'connect.html',
+        templateUrl: 'connect/index.html',
         controller: 'ConnectController',
         controllerAs: 'vm'
       });
@@ -28,7 +28,7 @@
 
   function connectionHandler($rootScope, $state, oracleClient) {
 
-    function loggedIn() { $state.go('main'); }
+    function loggedIn() { $state.go('dashboard'); }
     function loggedOut() { $state.go('connect'); }
 
     $rootScope.$on('oracle-client:connected', loggedIn);

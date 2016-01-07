@@ -1,11 +1,11 @@
 (function () {
   angular
     .module('oracle-client')
-    .controller('MainController', MainController);
+    .controller('DashboardController', DashboardController);
 
-  MainController.$inject = ['$scope', 'oracleClient'];
+  DashboardController.$inject = ['$scope', 'oracleClient'];
 
-  function MainController($scope, oracleClient) {
+  function DashboardController($scope, oracleClient) {
     var vm = this;
 
     vm.sending = false;

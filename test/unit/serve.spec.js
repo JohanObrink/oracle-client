@@ -78,7 +78,7 @@ describe('oracleClient.serve()', () => {
       });
       it('reads the index.html page', () => {
         client.handleRequest(req, res);
-        expect(fs.readFile).calledOnce.calledWithMatch(/\/views\/index\.html$/);
+        expect(fs.readFile).calledOnce.calledWith(process.cwd() + '/webclient/dist/index.html');
       });
       it('writes the contents of index.html to the response', () => {
         client.handleRequest(req, res);
@@ -102,6 +102,7 @@ describe('oracleClient.serve()', () => {
       beforeEach(() => {
         socket = {
           on: sinon.stub(),
+          removeListener: sinon.stub(),
           emit: function (event) {
             var args = Array.prototype.slice.call(arguments, 1);
             var stub = this.on.withArgs(event);
@@ -259,6 +260,16 @@ describe('oracleClient.serve()', () => {
             .then(() => {
               expect(callback).calledOnce.calledWith(error.toString());
             });
+        });
+      });
+      describe('on(disconnect)', () => {
+        it('removes listener from socket', () => {
+          socket.emit('disconnect');
+          expect(socket.removeListener)
+            .calledWith('db-connect')
+            .calledWith('db-execute')
+            .calledWith('db-release')
+            .calledWith('disconnect');
         });
       });
     });

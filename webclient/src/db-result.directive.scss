@@ -1,0 +1,19 @@
+.db-result {
+  font-family: monospace;
+  font-size: 11px;
+
+  tr {
+    margin: 0;
+  }
+  thead tr {
+    background-color: silver;
+  }
+  th, td {
+    margin: 0;
+    text-align: left;
+    padding: 10px;
+  }
+  td.val__number {
+    text-align: right;
+  }
+}

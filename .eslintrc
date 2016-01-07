@@ -12,5 +12,10 @@
     "semi"              : [1, "always"],
     "space-unary-ops"   : 2,
     "no-console"        : 0
+  },
+  "globals": {
+    "angular": true,
+    "io": true,
+    "moment": true
   }
 }

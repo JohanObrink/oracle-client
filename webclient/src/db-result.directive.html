@@ -1,0 +1,12 @@
+<table class="db-result">
+  <thead>
+    <tr>
+      <th ng-repeat="col in columns">{{::col}}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="row in rows">
+      <td ng-repeat="col in columns" ng-class="row[col] | dbValCss">{{::row[col]}}</td>
+    </tr>
+  </tbody>
+</table>

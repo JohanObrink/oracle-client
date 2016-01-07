@@ -1,0 +1,26 @@
+{
+  "name": "oracle-client",
+  "version": "0.1.0",
+  "homepage": "https://github.com/JohanObrink/oracle-client",
+  "authors": [
+    "Johan Öbrink <johan.obrink@gmail.com>"
+  ],
+  "description": "The web client part of serve mode oracle client",
+  "keywords": [
+    "oracledb",
+    "socket.io",
+    "client"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.4.8",
+    "moment": "~2.11.0"
+  }
+}

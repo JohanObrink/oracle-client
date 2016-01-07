@@ -1,20 +1,18 @@
 (function () {
   angular
     .module('oracle-client')
-    .controller('Main', MainController);
+    .controller('MainController', MainController);
 
   MainController.$inject = ['$scope', 'oracleClient'];
 
   function MainController($scope, oracleClient) {
     var vm = this;
 
-    vm.config = JSON.stringify({user: '', password: '', host: '', database: ''}, null, '\t');
-    vm.connected = false;
     vm.sending = false;
     vm.results = [];
     vm.log = '';
 
-    vm.connect = () => connect(JSON.parse(vm.config));
+
     vm.disconnect = () => disconnect();
     vm.execute = () => execute(vm.sql);
     vm.clearLog = () => vm.log = '';
@@ -54,21 +52,6 @@
 
     function logError(err) {
       log(`Error: ${err}`);
-    }
-
-    function connect(config) {
-      vm.sending = true;
-      return oracleClient.connect(config)
-        .then(connectionId => {
-          vm.connected = true;
-          vm.sending = false;
-          logInfo(`Connected to ${connectionId}`);
-        })
-        .catch(err => {
-          vm.connected = false;
-          vm.sending = false;
-          logError(err);
-        });
     }
 
     function disconnect() {

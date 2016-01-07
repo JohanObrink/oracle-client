@@ -1,10 +1,5 @@
-<div class="main" ng-controller="Main as vm">
-  <section class="connection">
-    <textarea class="config" ng-model="vm.config" ng-if="!vm.connected"></textarea>
-    <button ng-if="!vm.connected" ng-click="vm.connect()">Connect</button>
-    <button ng-if="vm.connected" ng-click="vm.disconnect()">Disconnect</button>
-  </section>
-
+<div class="main">
+  <button ng-click="vm.disconnect()">Disconnect</button>
   <section class="debug">
     <textarea ng-model="vm.log"></textarea>
   </section>

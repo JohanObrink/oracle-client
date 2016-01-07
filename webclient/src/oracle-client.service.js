@@ -3,7 +3,9 @@
     .module('oracle-client')
     .service('oracleClient', oracleClient);
 
-  function oracleClient() {
+  oracleClient.$inject = ['$rootScope'];
+
+  function oracleClient($rootScope) {
     var socket = io.connect('http://localhost:3000');
 
     var service = {
@@ -26,6 +28,7 @@
           } else {
             service.connectionId = connectionId;
             resolve(connectionId);
+            $rootScope.$emit('oracle-client:connected');
           }
         });
       });
@@ -39,6 +42,7 @@
           } else {
             resolve(service.connectionId);
             service.connectionId = null;
+            $rootScope.$emit('oracle-client:disconnected');
           }
         });
       });

@@ -1,1 +1,1 @@
-angular.module('oracle-client', []);
+angular.module('oracle-client', ['ui.router']);

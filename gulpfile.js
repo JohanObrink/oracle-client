@@ -7,6 +7,7 @@ var gulp = require('gulp'),
   concat = require('gulp-concat'),
   sourcemaps = require('gulp-sourcemaps'),
   sass = require('gulp-sass'),
+  babel = require('gulp-babel'),
   uglify = require('gulp-uglify'),
   htmlmin = require('gulp-htmlmin'),
   template = require('gulp-template'),
@@ -41,7 +42,6 @@ gulp.task('webclient:dependencies', () => {
     }))
     .pipe(sourcemaps.init())
     .pipe(concat('dependencies.js'))
-    .pipe(uglify())
     .pipe(sourcemaps.write())
     .pipe(gulp.dest('webclient/temp'));
 });
@@ -50,6 +50,7 @@ gulp.task('webclient:code', () => {
   running['webclient:code'] = ['webclient/src/**/*.module.js', 'webclient/src/**/*.js'];
   return gulp.src(running['webclient:code'])
     .pipe(sourcemaps.init())
+    .pipe(babel({presets: ['es2015']}))
     .pipe(concat('code.js'))
     .pipe(sourcemaps.write())
     .pipe(gulp.dest('webclient/temp'));
@@ -63,7 +64,6 @@ gulp.task('webclient:templates', () => {
       module: 'oracle-client',
       base: path.resolve('./webclient/src')
     }))
-    .pipe(uglify())
     .pipe(sourcemaps.write())
     .pipe(gulp.dest('webclient/temp'));
 });
@@ -87,6 +87,7 @@ gulp.task('webclient:scripts', () => {
   return gulp.src(running['webclient:scripts'])
     .pipe(sourcemaps.init({loadMaps: true}))
     .pipe(concat('oracle-client.js'))
+    .pipe(uglify())
     .pipe(sourcemaps.write())
     .pipe(gulp.dest('webclient/temp'));
 });

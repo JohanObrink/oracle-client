@@ -1,0 +1,40 @@
+(function () {
+  angular
+    .module('oracle-client')
+    .config(routes)
+    .run(connectionHandler);
+
+  routes.$inject = ['$locationProvider', '$stateProvider', '$urlRouterProvider'];
+
+  function routes($locationProvider, $stateProvider, $urlRouterProvider) {
+    $locationProvider.html5Mode(true);
+    $urlRouterProvider.otherwise('/');
+    $stateProvider
+      .state('main', {
+        url: '/',
+        templateUrl: 'main.html',
+        controller: 'MainController',
+        controllerAs: 'vm'
+      })
+      .state('connect', {
+        url: '/connect',
+        templateUrl: 'connect.html',
+        controller: 'ConnectController',
+        controllerAs: 'vm'
+      });
+  }
+
+  connectionHandler.$inject = ['$rootScope', '$state', 'oracleClient'];
+
+  function connectionHandler($rootScope, $state, oracleClient) {
+
+    function loggedIn() { $state.go('main'); }
+    function loggedOut() { $state.go('connect'); }
+
+    $rootScope.$on('oracle-client:connected', loggedIn);
+    $rootScope.$on('oracle-client:disconnected', loggedOut);
+
+    if(oracleClient.connectionId) { loggedIn(); }
+    else { loggedOut(); }
+  }
+})();

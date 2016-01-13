@@ -1,6 +1,6 @@
 {
   "name": "oracle-client",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "An oracledb client for connecting to oracledb directly, serving the connection through a web socket or consuming said web socket.",
   "main": "lib/oracle-client",
   "scripts": {

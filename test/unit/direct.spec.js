@@ -70,7 +70,7 @@ describe('oracleClient.direct()', () => {
             .then(() => {
               expect(dbConn.execute)
                 .calledOnce
-                .calledWith('SELECT * FROM USERS', []);
+                .calledWith('SELECT * FROM USERS', [], {});
             });
         });
         it('calls dbConn.execute with the correct default parameters with options', () => {

@@ -92,11 +92,11 @@ describe('oracleClient.connect()', () => {
       describe('execute', () => {
         it('emits db-execute with the correct connectionId, sql, and params', () => {
           return connection
-            .execute('SELECT * FROM USERS WHERE ID = :id', [12])
+            .execute('SELECT * FROM USERS WHERE ID = :id', [12], {maxRows: 150})
             .then(() => {
               expect(socket.emit.withArgs('db-execute'))
                 .calledOnce
-                .calledWith('db-execute', connectionId, 'SELECT * FROM USERS WHERE ID = :id', [12]);
+                .calledWith('db-execute', connectionId, 'SELECT * FROM USERS WHERE ID = :id', [12], {maxRows: 150});
             });
         });
         it('resolves the result', () => {

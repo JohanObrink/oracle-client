@@ -166,10 +166,11 @@ describe('oracleClient.serve()', () => {
         });
       });
       describe('on(db-execute)', () => {
-        var sql, params, callback, result;
+        var sql, params, options, callback, result;
         beforeEach(() => {
           sql = 'SELECT * FROM USERS WHERE ID = :id';
           params = [12];
+          options = {maxRows: 150};
           callback = sinon.spy();
           result = [{id: 1}, {id: 2}];
           directConn.execute.resolves(result);
@@ -178,30 +179,36 @@ describe('oracleClient.serve()', () => {
         it('calls onDbExecute', () => {
           sinon.stub(client, 'onDbExecute');
 
-          socket.emit('db-execute', connectionId, sql, params, callback);
+          socket.emit('db-execute', connectionId, sql, params, options, callback);
 
           expect(client.onDbExecute)
             .calledOnce
-            .calledWith(socket, connectionId, sql, params, callback);
+            .calledWith(socket, connectionId, sql, params, options, callback);
         });
         it('passes an error if no such connection exists', () => {
           socket.connections = {};
-          client.onDbExecute(socket, connectionId, sql, params, callback);
+          client.onDbExecute(socket, connectionId, sql, params, options, callback);
 
-          expect(callback).calledOnce.calledWith('Error: No connection found with id: abc-123');
+          expect(callback)
+            .calledOnce
+            .calledWith('Error: No connection found with id: abc-123');
         });
         it('calls execute() on the connection with the correct parameters', () => {
           return client
-            .onDbExecute(socket, connectionId, sql, params, callback)
+            .onDbExecute(socket, connectionId, sql, params, options, callback)
             .then(() => {
-              expect(directConn.execute).calledOnce.calledWith(sql, params);
+              expect(directConn.execute)
+                .calledOnce
+                .calledWith(sql, params, options);
             });
         });
         it('passes the result to the callback', () => {
           return client
-            .onDbExecute(socket, connectionId, sql, params, callback)
+            .onDbExecute(socket, connectionId, sql, params, options, callback)
             .then(() => {
-              expect(callback).calledOnce.calledWith(null, result);
+              expect(callback)
+                .calledOnce
+                .calledWith(null, result);
             });
         });
         it('passes errors to the callback', () => {
@@ -209,9 +216,11 @@ describe('oracleClient.serve()', () => {
           directConn.execute.rejects(error);
 
           return client
-            .onDbExecute(socket, connectionId, sql, params, callback)
+            .onDbExecute(socket, connectionId, sql, params, options, callback)
             .then(() => {
-              expect(callback).calledOnce.calledWith(error.toString());
+              expect(callback)
+                .calledOnce
+                .calledWith(error.toString());
             });
         });
       });

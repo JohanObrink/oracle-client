@@ -57,16 +57,29 @@ describe('oracleClient.direct()', () => {
       describe('execute', () => {
         it('calls dbConn.execute with the correct parameters', () => {
           return connection
-            .execute('SELECT * FROM USERS WHERE ID = :id', [12])
+            .execute('SELECT * FROM USERS WHERE ID = :id', [12], {maxRows: 150})
             .then(() => {
-              expect(dbConn.execute).calledOnce.calledWith('SELECT * FROM USERS WHERE ID = :id', [12]);
+              expect(dbConn.execute)
+                .calledOnce
+                .calledWith('SELECT * FROM USERS WHERE ID = :id', [12], {maxRows: 150});
             });
         });
         it('calls dbConn.execute with the correct default parameters', () => {
           return connection
             .execute('SELECT * FROM USERS')
             .then(() => {
-              expect(dbConn.execute).calledOnce.calledWith('SELECT * FROM USERS', []);
+              expect(dbConn.execute)
+                .calledOnce
+                .calledWith('SELECT * FROM USERS', []);
+            });
+        });
+        it('calls dbConn.execute with the correct default parameters with options', () => {
+          return connection
+            .execute('SELECT * FROM USERS', null, {maxRows: 150})
+            .then(() => {
+              expect(dbConn.execute)
+                .calledOnce
+                .calledWith('SELECT * FROM USERS', [], {maxRows: 150});
             });
         });
         it('resolves the mapped result', () => {

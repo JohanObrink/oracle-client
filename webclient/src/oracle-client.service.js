@@ -3,10 +3,12 @@
     .module('oracle-client')
     .service('oracleClient', oracleClient);
 
-  oracleClient.$inject = ['$rootScope'];
+  oracleClient.$inject = ['$rootScope', '$location'];
 
-  function oracleClient($rootScope) {
-    var socket = io.connect('http://localhost:3000');
+  function oracleClient($rootScope, $location) {
+    var port = $location.port() !== 80 ? `:${$location.port()}`: '';
+    var url = `${$location.protocol()}://${$location.host()}${port}`;
+    var socket = io.connect(url);
 
     var service = {
       connectionId: null,

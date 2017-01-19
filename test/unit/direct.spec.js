@@ -91,6 +91,16 @@ describe('oracleClient.direct()', () => {
               expect(res).to.eql([{id: 1, name: 'Johan'}]);
             });
         });
+        it('resolves the result object when no rows are returned', () => {
+          result.metaData = undefined;
+          result.rows = undefined;
+          result.rowsAffected = 1;
+          return connection
+            .execute('')
+            .then((res) => {
+              expect(res).to.eql({metaData: undefined, rows: undefined, rowsAffected: 1});
+            });
+        });
         it('rejects any errors', () => {
           var error = new Error('error');
           dbConn.execute.yields(error);
